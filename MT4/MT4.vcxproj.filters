@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="シェーダ ファイル">
+      <UniqueIdentifier>{bf37cf7d-f251-4a63-8470-5b9359b9b57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダ ファイル">
+      <UniqueIdentifier>{2488e371-56ff-4c4a-965e-02a85c9493ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{765e682a-9a24-4ea2-836c-3e3475262342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D">
+      <UniqueIdentifier>{b719ba0e-67c9-4215-bd81-de3461872bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\3dObject">
+      <UniqueIdentifier>{488e4842-9fc5-4902-a315-aa8b982bf5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\3dObject\Model">
+      <UniqueIdentifier>{5aef90cd-b263-4b1d-b739-dad8283bf759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\3dObject\Mesh">
+      <UniqueIdentifier>{88e4127a-3b98-4d2f-b074-8d525bf81c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\3dObject\Object3d">
+      <UniqueIdentifier>{ea3be76a-3f8f-4e70-b888-85feea9000be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D">
+      <UniqueIdentifier>{d63d5e2a-ef45-44e2-8f1f-e5af73983cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{3ce2e42c-0faf-4915-b8de-26c4530a8a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D\Sprite">
+      <UniqueIdentifier>{6ac0965a-5ab6-4d8e-984e-17fd932bfd99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D\DebugText">
+      <UniqueIdentifier>{44b6f90e-e975-4a04-9177-14dbfa78b076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\3dObject\Material">
+      <UniqueIdentifier>{e08f023a-57f3-4f0d-a995-ee2dba8b1d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\GameScene">
+      <UniqueIdentifier>{0bde4196-1ed4-4899-8fa8-efc2aa8e3e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{41066724-bea3-4ede-90a5-181d5efc1742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\Keyboard">
+      <UniqueIdentifier>{723f84a0-6e3d-429c-9d21-a9c4e3b95d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{e2c3bd20-ff18-41ea-85a2-9d3a5142d4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D\Particle">
+      <UniqueIdentifier>{033c8c30-54fd-4290-97ef-60d8cb937a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{74f17f9a-9e9e-4a1d-8ef8-55ad9ea16d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{6e88e649-eca2-4ee8-a81d-a2dc72ccfdf2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="WinApp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>3D\3dObject\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>3D\3dObject\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>3D\3dObject\Object3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>2D\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugText.cpp">
+      <Filter>2D\DebugText</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>3D\3dObject\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scenes\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Input\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>3D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionPrimitive.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="TouchableObject.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shaders\Particle.hlsli">
+      <Filter>シェーダ ファイル</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SafeDelete.h">
+      <Filter>ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="WinApp.h">
+      <Filter>ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryCallback.h">
+      <Filter>ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>3D\3dObject\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>3D\3dObject\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d.h">
+      <Filter>3D\3dObject\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Scenes\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>2D\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugText.h">
+      <Filter>2D\DebugText</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Input\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>3D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionAttribute.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionTypes.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>3D\3dObject\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="RaycastHit.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="TouchableObject.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXCommon.h">
+      <Filter>ヘッダ ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
