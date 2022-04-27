@@ -54,78 +54,73 @@ void Player::Update()
 {
 	Input* input = Input::GetInstance();
 
-	if (input->PushKey(DIK_A) || input->PushKey(DIK_D) || input->PushKey(DIK_W) || input->PushKey(DIK_S))
+	if (input->TriggerKey(DIK_W))
 	{
-		if (input->PushKey(DIK_A) && input->PushKey(DIK_W))
-		{
-			rotation.y = 315.0f;
-			position.x -= 0.2f * 0.71f;
-			position.z += 0.2f * 0.71f;
-		}
+		moving = true;
+		rotation.y = 0.0f;
+	}
+	else
+	{
+		moving = false;
+	}
 
-		else if (input->PushKey(DIK_D) && input->PushKey(DIK_W))
+	if (moving)
+	{
+		move += 1.0f;
+		if (move >= 1.0f)
 		{
-			rotation.y = 45.0f;
-			position.x += 0.2f * 0.71f;
-			position.z += 0.2f * 0.71f;
-		}
-
-		else if (input->PushKey(DIK_D) && input->PushKey(DIK_S))
-		{
-			rotation.y = 135.0f;
-			position.x += 0.2f * 0.71f;
-			position.z -= 0.2f * 0.71f;
-		}
-
-		else if (input->PushKey(DIK_A) && input->PushKey(DIK_S))
-		{
-			rotation.y = 225.0f;
-			position.x -= 0.2f * 0.71f;
-			position.z -= 0.2f * 0.71f;
-		}
-
-		else if (input->PushKey(DIK_A))
-		{
-			position.x -= 0.2f;
-			rotation.y = 270.0f;
-		}
-
-		else if (input->PushKey(DIK_D))
-		{
-			position.x += 0.2f;
-			rotation.y = 90.0f;
-		}
-
-		else if (input->PushKey(DIK_W))
-		{
-			position.z += 0.2f;
-			rotation.y = 0.0f;
-		}
-
-		else if (input->PushKey(DIK_S))
-		{
-			position.z -= 0.2f;
-			rotation.y = 180.0f;
+			move = 1.0f;
 		}
 	}
 
+	if (!moving)
+	{
+		move -= 0.05f;
+		if (move <= 0.0f)
+		{
+			move = 0.0f;
+		}
+	}
+
+	position.z += move;
+
 	// 移動ベクトルをY軸回りの角度で回転 Rotate the movement vector at an angle around the Y axis
-	XMVECTOR move = { 0, 0, 0.1f, 0 };
+	XMVECTOR move = { 0, 0, 0.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
 	// 向いている方向に移動 Move in the direction you are facing
-	//if (input->PushKey(DIK_S)) {
-	//	position.x -= move.m128_f32[0];
-	//	position.y -= move.m128_f32[1];
-	//	position.z -= move.m128_f32[2];
-	//}
+	/*if (input->PushKey(DIK_W)) {
+		moving = true;
+	}
+	else
+	{
+		moving = false;
+	}
 
-	//if (input->PushKey(DIK_W)) {
-	//	position.x += move.m128_f32[0];
-	//	position.y += move.m128_f32[1];
-	//	position.z += move.m128_f32[2];
-	//}
+	if (moving)
+	{
+		const float speedUp = 0.05f;
+		move.m128_f32[2] += speedUp;
+		if (move.m128_f32[2] >= 1.0f)
+		{
+			move.m128_f32[2] = 1.0f;
+		}
+	}
+
+	if (!moving)
+	{
+		const float slowDown = 0.05f;
+		move.m128_f32[2] -= slowDown;
+		if (move.m128_f32[2] <= 0.0f)
+		{
+			move.m128_f32[2] = 0.0f;
+		}
+	}
+
+	position.x += move.m128_f32[0];
+	position.y += move.m128_f32[1];
+	position.z += move.m128_f32[2];*/
 
 	// ワールド行列更新
 	UpdateWorldMatrix();
@@ -142,11 +137,11 @@ void Player::Update()
 		position.z += fallV.m128_f32[2];
 	}
 	// ジャンプ操作 Jump operation
-	else if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	/*else if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		onGround = false;
 		const float jumpVYFist = 0.15f;
 		fallV = { 0, jumpVYFist, 0, 0 };
-	}
+	}*/
 	
 	// コライダー更新 Collider update
 	UpdateWorldMatrix();

@@ -37,6 +37,9 @@ public:
 private:
 
 	bool onGround = true;
+	bool moving = false;
+
+	float move = 0.0f;
 
 	DirectX::XMVECTOR fallV;
 };

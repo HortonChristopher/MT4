@@ -88,7 +88,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	const int WALL_NUM = 23;
 
 	//自分側のマップチップ生成(Map chip generation)
-	for (int i = 0; i < DIV_NUM; i++) { // y coordinate - Bottom to Top
+	for (int i = 0; i < 50; i++) { // y coordinate - Bottom to Top
 		for (int j = 0; j < 5; j++) { // x coordinate - Left to Right
 			int modelIndex = 0;
 
@@ -105,6 +105,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	camera->SetTarget({ 0, 1, 0 });
 	camera->MoveVector({ -12, 0, 0 });
+	camera->MoveEyeVector({ 0, 0,0 });
 }
 
 void GameScene::Update()
