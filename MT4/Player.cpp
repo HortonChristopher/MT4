@@ -54,17 +54,17 @@ void Player::Update()
 {
 	Input* input = Input::GetInstance();
 
-	if (input->TriggerKey(DIK_W))
+	if (input->TriggerKey(DIK_D))
 	{
-		moving = true;
-		rotation.y = 0.0f;
+		movingR = true;
+		rotation.y = 90.0f;
 	}
 	else
 	{
-		moving = false;
+		movingR = false;
 	}
 
-	if (moving)
+	if (movingR)
 	{
 		move += 1.0f;
 		if (move >= 1.0f)
@@ -73,16 +73,16 @@ void Player::Update()
 		}
 	}
 
-	if (!moving)
+	if (!movingR)
 	{
-		move -= 0.05f;
+		move -= 0.02f;
 		if (move <= 0.0f)
 		{
 			move = 0.0f;
 		}
 	}
 
-	position.z += move;
+	position.x += move;
 
 	// 移動ベクトルをY軸回りの角度で回転 Rotate the movement vector at an angle around the Y axis
 	XMVECTOR move = { 0, 0, 0.0f, 0 };
@@ -227,7 +227,7 @@ void Player::Update()
 	//落下したらプレイヤーの位置を初期値に戻す
 	if (position.y <= -20)
 	{
-		position.x = -12.0f;
+		position.x = 0.0f;
 		position.y = 0.0f;
 		position.z = -12.0f;
 

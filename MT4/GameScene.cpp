@@ -71,10 +71,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// パーティクルマネージャー
 	particleMan = ParticleManager::Create(dxCommon->GetDevice(), camera);
 
-	modelFighter = Model::CreateFromOBJ("chr_sword");
+	objFighter = Object3d::Create();
+	objFighter2 = Object3d::Create();
+
+	modelSphere1 = Model::CreateFromOBJ("sphere1");
+	modelSphere2 = Model::CreateFromOBJ("sphere2");
 	modelPlane = Model::CreateFromOBJ("yuka");
 
-	objFighter = Player::Create(modelFighter);
+	objFighter->SetModel(modelSphere1);
+	objFighter2->SetModel(modelSphere2);
 
 	// モデルテーブル Model table
 	Model* modeltable[2] = {
@@ -88,8 +93,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	const int WALL_NUM = 23;
 
 	//自分側のマップチップ生成(Map chip generation)
-	for (int i = 0; i < 50; i++) { // y coordinate - Bottom to Top
-		for (int j = 0; j < 5; j++) { // x coordinate - Left to Right
+	for (int i = 0; i < 5; i++) { // y coordinate - Bottom to Top
+		for (int j = 0; j < 50; j++) { // x coordinate - Left to Right
 			int modelIndex = 0;
 
 			TouchableObject* object = TouchableObject::Create(modeltable[modelIndex]);
@@ -100,18 +105,66 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	}
 
 	objFighter->SetScale({ 1,1,1 });
+	objFighter2->SetScale({ 1,1,1 });
 
-	objFighter->SetPosition({ -12,0,-12 });
+	objFighter->SetRotation({ 0,90,0 });
+	objFighter2->SetRotation({ 0,90,0 });
 
-	camera->SetTarget({ 0, 1, 0 });
+	objFighter->SetPosition({ 0,1,-12 });
+	objFighter2->SetPosition({ 75,1,-12 });
+
+	camera->SetTarget({ 50, 1, -20 });
 	camera->MoveVector({ -12, 0, 0 });
-	camera->MoveEyeVector({ 0, 0,0 });
+	camera->MoveEyeVector({ 50, 0,-20 });
 }
 
 void GameScene::Update()
 {
 	playerPosition = objFighter->GetPosition();
 	playerRotation = objFighter->GetRotation();
+	playerPosition2 = objFighter2->GetPosition();
+	playerRotation2 = objFighter2->GetRotation();
+
+	if (input->TriggerKey(DIK_SPACE))
+	{
+		start = true;
+	}
+
+	if (!collision)
+	{
+		if (intersect(playerPosition, playerPosition2, 1.0f, 1.0f, 1.0f))
+		{
+			velocity = 0.2448f;
+			velocity2 = 1.3248f;
+
+			collision = true;
+		}
+	}
+	//13890 - 6666
+	//7224 = 1000vf1 + 600vf2
+	//1000vf1 + 600 * (7.5 + vf1) = 7224
+	//1000vf1 + 4500 + 600vf1 = 7224
+	//1600vf1 = 2720
+	//vf1 = 1.7m/s
+	//7.5 + 1.7 = 9.2
+	//1.7 = 6.12km/h * 0.04 = 0.2448
+	//9.2 = 33.12km/h * 0.04 = 1.3248
+	if (start)
+	{
+		if (!collision)
+		{
+			playerPosition.x += velocity;
+			playerPosition2.x -= velocity2;
+		}
+		else
+		{
+			playerPosition.x += velocity;
+			playerPosition2.x += velocity2;
+		}
+	}
+
+	objFighter->SetPosition(playerPosition);
+	objFighter2->SetPosition(playerPosition2);
 
 	camera->Update();
 
@@ -120,6 +173,7 @@ void GameScene::Update()
 	}
 
 	objFighter->Update();
+	objFighter2->Update();
 
 	collisionManager->CheckAllCollisions();
 
@@ -158,6 +212,7 @@ void GameScene::Draw()
 	}
 
 	objFighter->Draw();
+	objFighter2->Draw();
 
 	// ここに3Dオブジェクトの描画処理を追加できる You can add 3D object drawing process here
 
@@ -179,4 +234,22 @@ void GameScene::Draw()
 	// スプライト描画後処理 Post-processing of sprite drawing
 	Sprite::PostDraw();
 	#pragma endregion
+}
+
+int GameScene::intersect(XMFLOAT3 player, XMFLOAT3 wall, float circleR, float rectW, float rectH)
+{
+	XMFLOAT2 circleDistance;
+
+	circleDistance.x = abs(player.x - wall.x);
+	circleDistance.y = abs(player.z - wall.z);
+
+	if (circleDistance.x > (rectW / 2.0f + circleR)) { return false; }
+	if (circleDistance.y > (rectH / 2.0f + circleR)) { return false; }
+
+	if (circleDistance.x <= (rectW / 2.0f)) { return true; }
+	if (circleDistance.y <= (rectH / 2.0f)) { return true; }
+
+	float cornerDistance_sq = ((circleDistance.x - rectW / 2.0f) * (circleDistance.x - rectW / 2.0f)) + ((circleDistance.y - rectH / 2.0f) * (circleDistance.y - rectH / 2.0f));
+
+	return (cornerDistance_sq <= (circleR * circleR));
 }

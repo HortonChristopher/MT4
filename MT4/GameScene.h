@@ -51,6 +51,8 @@ public: // メンバ関数 Member function
 	// 描画 drawing
 	void Draw();
 
+	int GameScene::intersect(XMFLOAT3 player, XMFLOAT3 wall, float circleR, float rectW, float rectH);
+
 private: // メンバ変数 Member variables
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
@@ -66,10 +68,13 @@ private: // メンバ変数 Member variables
 
 	Model* modelFighter = nullptr;
 	Model* modelPlane = nullptr;
+	Model* modelSphere1 = nullptr;
+	Model* modelSphere2 = nullptr;
 
 	TouchableObject* objGround = nullptr;
 
-	Player* objFighter = nullptr;
+	Object3d* objFighter = nullptr;
+	Object3d* objFighter2 = nullptr;
 
 	CollisionManager* collisionManager;
 
@@ -78,4 +83,12 @@ private: // メンバ変数 Member variables
 	//オブジェクトのポジション、回転角度
 	XMFLOAT3 playerPosition;
 	XMFLOAT3 playerRotation;
+	XMFLOAT3 playerPosition2;
+	XMFLOAT3 playerRotation2;
+
+	float velocity = 2.0f;
+	float velocity2 = 1.6f;
+
+	bool collision = false;
+	bool start = false;
 };
