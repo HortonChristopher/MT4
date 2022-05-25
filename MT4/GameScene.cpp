@@ -93,7 +93,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	const int WALL_NUM = 23;
 
 	//自分側のマップチップ生成(Map chip generation)
-	for (int i = 0; i < 5; i++) { // y coordinate - Bottom to Top
+	for (int i = 0; i < 20; i++) { // y coordinate - Bottom to Top
 		for (int j = 0; j < 50; j++) { // x coordinate - Left to Right
 			int modelIndex = 0;
 
@@ -110,12 +110,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	objFighter->SetRotation({ 0,90,0 });
 	objFighter2->SetRotation({ 0,90,0 });
 
-	objFighter->SetPosition({ 0,1,-12 });
-	objFighter2->SetPosition({ 75,1,-12 });
+	objFighter->SetPosition({ 21, 1, 8 });
+	objFighter2->SetPosition({ 85, 1, 8 });
 
-	camera->SetTarget({ 50, 1, -20 });
-	camera->MoveVector({ -12, 0, 0 });
-	camera->MoveEyeVector({ 50, 0,-20 });
+	camera->SetTarget({ 65, 1, 0 });
+	camera->MoveVector({ -12, 12, 0 });
+	camera->MoveEyeVector({ 65, 0, 0 });
 }
 
 void GameScene::Update()
@@ -134,33 +134,41 @@ void GameScene::Update()
 	{
 		if (intersect(playerPosition, playerPosition2, 1.0f, 1.0f, 1.0f))
 		{
-			velocity = 0.2448f;
-			velocity2 = 1.3248f;
-
-			collision = true;
+			calculation = true;
 		}
 	}
-	//13890 - 6666
-	//7224 = 1000vf1 + 600vf2
-	//1000vf1 + 600 * (7.5 + vf1) = 7224
-	//1000vf1 + 4500 + 600vf1 = 7224
-	//1600vf1 = 2720
-	//vf1 = 1.7m/s
-	//7.5 + 1.7 = 9.2
-	//1.7 = 6.12km/h * 0.04 = 0.2448
-	//9.2 = 33.12km/h * 0.04 = 1.3248
+
+	if (calculation && !collision)
+	{
+		float ms1 = velocity * (5.0f / 18.0f); // km/h to m/s
+		float ms2 = velocity2 * (5.0f / 18.0f); // km/h to m/s
+
+		float kgms1 = weight1 * ms1;
+		float kgms2 = weight2 * ms2;
+
+		float kgms = kgms1 - kgms2;
+
+		float ms3 = ms1 - ms2;
+
+		float massratio = 0.3f * ms3;
+
+		float kgms3 = massratio * weight2;
+
+		float kgmsfinal = kgms - kgms3;
+
+		float totalmass = weight1 + weight2;
+
+		velocity = kgmsfinal / totalmass;
+
+		velocity2 = ms3 - velocity;
+
+		collision = true;
+	}
+
 	if (start)
 	{
-		if (!collision)
-		{
-			playerPosition.x += velocity;
-			playerPosition2.x -= velocity2;
-		}
-		else
-		{
-			playerPosition.x += velocity;
-			playerPosition2.x += velocity2;
-		}
+		playerPosition.x += velocity;
+		playerPosition2.x -= velocity2;
 	}
 
 	objFighter->SetPosition(playerPosition);
@@ -174,8 +182,6 @@ void GameScene::Update()
 
 	objFighter->Update();
 	objFighter2->Update();
-
-	collisionManager->CheckAllCollisions();
 
 	//Debug Start
 	//char msgbuf[256];

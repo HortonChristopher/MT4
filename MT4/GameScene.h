@@ -89,6 +89,10 @@ private: // メンバ変数 Member variables
 	float velocity = 2.0f;
 	float velocity2 = 1.6f;
 
+	float weight1 = 1000.0f;
+	float weight2 = 300.0f;
+
 	bool collision = false;
 	bool start = false;
+	bool calculation = false;
 };
