@@ -51,7 +51,7 @@ public: // メンバ関数 Member function
 	// 描画 drawing
 	void Draw();
 
-	int GameScene::intersect(XMFLOAT3 player, XMFLOAT3 wall, float circleR, float rectW, float rectH);
+	int GameScene::intersect(XMFLOAT2 player, XMFLOAT2 wall, float circleR, float rectW, float rectH);
 
 private: // メンバ変数 Member variables
 	DirectXCommon* dxCommon = nullptr;
@@ -63,6 +63,15 @@ private: // メンバ変数 Member variables
 	Camera* camera = nullptr;
 
 	Sprite* spriteBG = nullptr;
+	Sprite* redCircle = nullptr;
+	Sprite* whiteCircle = nullptr;
+	Sprite* whiteLine = nullptr;
+
+	XMFLOAT2 linePosition = { 0.0f, 0.0f };
+	XMFLOAT2 lineTruePosition = { 0.0f, 0.0f };
+
+	XMFLOAT2 circlePosition = { 0.0f, 0.0f };
+	XMFLOAT2 circleTruePosition = { 0.0f, 0.0f };
 
 	ParticleManager* particleMan = nullptr;
 
@@ -89,8 +98,7 @@ private: // メンバ変数 Member variables
 	float velocity = 2.0f;
 	float velocity2 = 1.6f;
 
-	float weight1 = 1000.0f;
-	float weight2 = 300.0f;
+	float angle = 0.0f;
 
 	bool collision = false;
 	bool start = false;

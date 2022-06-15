@@ -65,21 +65,26 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(2, L"Resources/WhiteLine.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(3, L"Resources/WhiteCircle.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(4, L"Resources/RedCircle.png")) {
+		assert(0);
+		return;
+	}
 	// 背景スプライト生成 Background sprite generation
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
+	whiteLine = Sprite::Create(2, { 300.0f, 0.0f });
+	whiteCircle = Sprite::Create(3, { 360.0f, 150.0f });
+	redCircle = Sprite::Create(4, { 360.0f, 150.0f });
 
 	// パーティクルマネージャー
 	particleMan = ParticleManager::Create(dxCommon->GetDevice(), camera);
-
-	objFighter = Object3d::Create();
-	objFighter2 = Object3d::Create();
-
-	modelSphere1 = Model::CreateFromOBJ("sphere1");
-	modelSphere2 = Model::CreateFromOBJ("sphere2");
-	modelPlane = Model::CreateFromOBJ("yuka");
-
-	objFighter->SetModel(modelSphere1);
-	objFighter2->SetModel(modelSphere2);
 
 	// モデルテーブル Model table
 	Model* modeltable[2] = {
@@ -93,100 +98,71 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	const int WALL_NUM = 23;
 
 	//自分側のマップチップ生成(Map chip generation)
-	for (int i = 0; i < 20; i++) { // y coordinate - Bottom to Top
-		for (int j = 0; j < 50; j++) { // x coordinate - Left to Right
-			int modelIndex = 0;
+	//for (int i = 0; i < 20; i++) { // y coordinate - Bottom to Top
+	//	for (int j = 0; j < 50; j++) { // x coordinate - Left to Right
+	//		int modelIndex = 0;
 
-			TouchableObject* object = TouchableObject::Create(modeltable[modelIndex]);
-			object->SetScale({ LAND_SCALE, LAND_SCALE, LAND_SCALE });
-			object->SetPosition({ (j - DIV_NUM / 2) * LAND_SCALE - LAND_SCALE * 1, 0, (i - DIV_NUM / 2) * LAND_SCALE });
-			objects.push_back(object);
-		}
-	}
+	//		TouchableObject* object = TouchableObject::Create(modeltable[modelIndex]);
+	//		object->SetScale({ LAND_SCALE, LAND_SCALE, LAND_SCALE });
+	//		object->SetPosition({ (j - DIV_NUM / 2) * LAND_SCALE - LAND_SCALE * 1, 0, (i - DIV_NUM / 2) * LAND_SCALE });
+	//		objects.push_back(object);
+	//	}
+	//}
 
-	objFighter->SetScale({ 1,1,1 });
-	objFighter2->SetScale({ 1,1,1 });
+	circlePosition = { 360.0f, 150.0f };
+	whiteCircle->SetSize({ 100.0f, 100.0f });
+	redCircle->SetSize({ 100.0f, 100.0f });
 
-	objFighter->SetRotation({ 0,90,0 });
-	objFighter2->SetRotation({ 0,90,0 });
-
-	objFighter->SetPosition({ 21, 1, 8 });
-	objFighter2->SetPosition({ 85, 1, 8 });
-
-	camera->SetTarget({ 65, 1, 0 });
-	camera->MoveVector({ -12, 12, 0 });
-	camera->MoveEyeVector({ 65, 0, 0 });
+	camera->SetTarget({ 0, 1, 0 });
+	camera->MoveVector({ 00, 0, 0 });
+	camera->MoveEyeVector({ 0, 0, 0 });
 }
 
 void GameScene::Update()
 {
-	playerPosition = objFighter->GetPosition();
-	playerRotation = objFighter->GetRotation();
-	playerPosition2 = objFighter2->GetPosition();
-	playerRotation2 = objFighter2->GetRotation();
-
-	if (input->TriggerKey(DIK_SPACE))
+	if (input->PushKey(DIK_W))
 	{
-		start = true;
+		linePosition.y -= 1.0f;
+	}
+	else if (input->PushKey(DIK_S))
+	{
+		linePosition.y += 1.0f;
 	}
 
-	if (!collision)
+	if (input->PushKey(DIK_D))
 	{
-		if (intersect(playerPosition, playerPosition2, 1.0f, 1.0f, 1.0f))
-		{
-			calculation = true;
-		}
+		linePosition.x += 1.0f;
+	}
+	else if (input->PushKey(DIK_A))
+	{
+		linePosition.x -= 1.0f;
 	}
 
-	if (calculation && !collision)
+	lineTruePosition.x = linePosition.x + 2.5f;
+	lineTruePosition.y = linePosition.y + 120.0f;
+	circleTruePosition.x = circlePosition.x + 50.0f;
+	circleTruePosition.y = circlePosition.y + 50.0f;
+
+	if (intersect(lineTruePosition, circleTruePosition, 50.0f, 3.0f, 240.0f))
 	{
-		float ms1 = velocity * (5.0f / 18.0f); // km/h to m/s
-		float ms2 = velocity2 * (5.0f / 18.0f); // km/h to m/s
-
-		float kgms1 = weight1 * ms1;
-		float kgms2 = weight2 * ms2;
-
-		float kgms = kgms1 - kgms2;
-
-		float ms3 = ms1 - ms2;
-
-		float massratio = 0.3f * ms3;
-
-		float kgms3 = massratio * weight2;
-
-		float kgmsfinal = kgms - kgms3;
-
-		float totalmass = weight1 + weight2;
-
-		velocity = kgmsfinal / totalmass;
-
-		velocity2 = ms3 - velocity;
-
 		collision = true;
 	}
-
-	if (start)
+	else
 	{
-		playerPosition.x += velocity;
-		playerPosition2.x -= velocity2;
+		collision = false;
 	}
 
-	objFighter->SetPosition(playerPosition);
-	objFighter2->SetPosition(playerPosition2);
+	whiteLine->SetPosition(linePosition);
 
 	camera->Update();
 
-	for (auto object : objects) {
-		object->Update();
-	}
-
-	objFighter->Update();
-	objFighter2->Update();
-
 	//Debug Start
-	//char msgbuf[256];
-	//sprintf_s(msgbuf, 256, "Eye X: %f\n", eye.x);
-	//OutputDebugStringA(msgbuf);
+	char msgbuf[256];
+	char msgbuf2[256];
+	sprintf_s(msgbuf, 256, "Eye X: %f\n", linePosition.x);
+	sprintf_s(msgbuf2, 256, "Eye X: %f\n", whiteCircle->GetPosition().x);
+	OutputDebugStringA(msgbuf);
+	OutputDebugStringA(msgbuf2);
 	//Debug End
 }
 
@@ -213,13 +189,6 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理 3D object drawing pre-processing
 	Object3d::PreDraw(cmdList);
 
-	for (auto object : objects) {
-		object->Draw();
-	}
-
-	objFighter->Draw();
-	objFighter2->Draw();
-
 	// ここに3Dオブジェクトの描画処理を追加できる You can add 3D object drawing process here
 
 	// 3Dオブジェクト描画後処理 Post-processing of 3D object drawing
@@ -233,6 +202,15 @@ void GameScene::Draw()
 	// ここに前景スプライトの描画処理を追加できる You can add foreground sprite drawing processing here
 	
 	// 描画 drawing
+	whiteLine->Draw();
+	if (collision)
+	{
+		redCircle->Draw();
+	}
+	else
+	{
+		whiteCircle->Draw();
+	}
 
 	// デバッグテキストの描画 Debug text drawing
 	// debugText.DrawAll(cmdList);
@@ -242,12 +220,12 @@ void GameScene::Draw()
 	#pragma endregion
 }
 
-int GameScene::intersect(XMFLOAT3 player, XMFLOAT3 wall, float circleR, float rectW, float rectH)
+int GameScene::intersect(XMFLOAT2 player, XMFLOAT2 wall, float circleR, float rectW, float rectH)
 {
 	XMFLOAT2 circleDistance;
 
 	circleDistance.x = abs(player.x - wall.x);
-	circleDistance.y = abs(player.z - wall.z);
+	circleDistance.y = abs(player.y - wall.y);
 
 	if (circleDistance.x > (rectW / 2.0f + circleR)) { return false; }
 	if (circleDistance.y > (rectH / 2.0f + circleR)) { return false; }
